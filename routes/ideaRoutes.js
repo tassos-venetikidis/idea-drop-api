@@ -44,10 +44,35 @@ router.get("/:ideaId", async (req, res, next) => {
 // @route        POST /api/ideas
 // @description  Create new idea
 // @access       Public
-router.post("/", (req, res) => {
-  const { title, description } = req.body;
+router.post("/", async (req, res, next) => {
+  try {
+    const { title, summary, description, tags } = req.body;
+    if (!title?.trim() || !summary?.trim() || !description?.trim()) {
+      res.status(400);
+      throw new Error("Title, summary and description are required!");
+    }
 
-  res.send(`${title} ${description}`);
+    const newIdea = new Idea({
+      title: title.trim(),
+      summary: summary.trim(),
+      description: description.trim(),
+      tags:
+        typeof tags === "string"
+          ? tags
+              .split(",")
+              .map((tag) => tag.trim())
+              .filter((tag) => tag !== "")
+          : Array.isArray(tags)
+            ? tags
+            : [],
+    });
+
+    const savedIdea = await newIdea.save();
+    res.status(201).json(savedIdea);
+  } catch (err) {
+    console.log(err.message);
+    next(err);
+  }
 });
 
 export default router;
