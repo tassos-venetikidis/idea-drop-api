@@ -51,6 +51,53 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
+// @route             POST (api/auth/login)
+// @description       Authenticate user
+// @access            Public
+router.post("/login", async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400);
+      throw new Error("Email and password are required.");
+    }
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(401);
+      throw new Error("Invalid Credentials");
+    }
+    // Check if password matches
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      res.status(401);
+      throw new Error("Invalid Credentials");
+    }
+    // Create Tokens
+    const payload = { userId: user._id.toString() };
+    const accessToken = await generateToken(payload, "1m");
+    const refreshToken = await generateToken(payload, "30d");
+
+    // Set refresh token in a HTTP-Only cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days expressed in msec
+    });
+
+    res.status(201).json({
+      accessToken,
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
 // @route             POST (api/auth/logout)
 // @description       Logout user and clear refresh token
 // @access            Private
