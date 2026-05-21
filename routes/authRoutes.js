@@ -51,4 +51,16 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
+// @route             POST (api/auth/logout)
+// @description       Logout user and clear refresh token
+// @access            Private
+router.post("/logout", async function (req, res) {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+  });
+  res.status(200).json({ message: "Logged out successfully." });
+});
+
 export default router;
