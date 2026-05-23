@@ -52,7 +52,7 @@ router.get("/:ideaId", async (req, res, next) => {
 // @access       Public
 router.post("/", async (req, res, next) => {
   try {
-    const { title, summary, description, tags } = req.body;
+    const { title, summary, description, tags } = req.body || {};
 
     if (!title?.trim() || !summary?.trim() || !description?.trim()) {
       res.status(400);
@@ -89,7 +89,7 @@ router.put("/:ideaId", async (req, res, next) => {
   const { ideaId } = req.params;
 
   try {
-    const { title, summary, description, tags } = req.body;
+    const { title, summary, description, tags } = req.body || {};
 
     if (!title?.trim() || !summary?.trim() || !description?.trim()) {
       res.status(400);
