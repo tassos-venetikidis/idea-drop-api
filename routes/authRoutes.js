@@ -43,9 +43,7 @@ router.post("/register", async function (req, res, next) {
 
     res.status(201).json({
       accessToken,
-      id: user._id,
-      name: user.name,
-      email: user.email,
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
     console.log(err);
@@ -90,9 +88,7 @@ router.post("/login", async function (req, res, next) {
 
     res.status(201).json({
       accessToken,
-      id: user._id,
-      name: user.name,
-      email: user.email,
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
     console.log(err);
@@ -117,7 +113,7 @@ router.post("/logout", async function (req, res) {
 // @access            Public (needs valid refresh token in cookie)
 router.post("/refresh", async function (req, res, next) {
   try {
-    const token = req.cokies?.refreshToken;
+    const token = req.cookies?.refreshToken;
     console.log("Refreshing token...");
     if (!token) {
       res.status(401);
@@ -135,9 +131,7 @@ router.post("/refresh", async function (req, res, next) {
     );
     res.json({
       accessToken: newAccessToken,
-      id: user._id,
-      name: user.name,
-      email: user.email,
+      user: { id: user._id, name: user.name, email: user.email },
     });
   } catch (err) {
     res.status(401);
