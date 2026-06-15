@@ -16,7 +16,10 @@ const PORT = process.env.PORT || 8000;
 connectDB();
 
 // CORS config
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://idea-drop-ui-plum-iota.vercel.app",
+];
 
 app.use(
   cors({
