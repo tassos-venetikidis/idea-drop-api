@@ -19,13 +19,13 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://idea-drop-ui-ivory.vercel.app/",
+  "https://idea-drop-ui-tassos-venetikidis-projects.vercel.app/",
 ];
 
 app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-    optionsSuccessStatus: 200,
   }),
 );
 app.use(express.json());
