@@ -19,6 +19,8 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://idea-drop-ui-plum-iota.vercel.app",
+  "https://idea-drop-owuqmq5aa-tassos-venetikidis-projects.vercel.app",
+  "https://idea-drop-ui-tassos-venetikidis-projects.vercel.app",
 ];
 
 app.use(
