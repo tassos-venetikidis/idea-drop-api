@@ -21,6 +21,7 @@ const allowedOrigins = [
   "https://idea-drop-ui-plum-iota.vercel.app",
   "https://idea-drop-owuqmq5aa-tassos-venetikidis-projects.vercel.app",
   "https://idea-drop-ui-tassos-venetikidis-projects.vercel.app",
+  "https://idea-drop-mscnibo81-tassos-venetikidis-projects.vercel.app/",
 ];
 
 app.use(
